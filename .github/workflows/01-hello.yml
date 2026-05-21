@@ -3,11 +3,13 @@ name: 01 - Hello
 
 on:
   # Define los eventos que disparan este workflow.
-  push:
+  # push:
     # Cuando se hace push a las ramas listadas, se ejecuta el workflow.
     # Aquí indicamos que solo se ejecute al hacer push en la rama 'main'.
     # Puedes cambiar a otra rama o usar '*' para todas las ramas.
-    branches: [main]
+    # branches: [main]
+    workflow_dispatch:
+    # Este evento permite ejecutar el workflow manualmente desde la interfaz de GitHub Actions.
 
 jobs:
   # Los jobs son las unidades de trabajo que se ejecutan en runners.
