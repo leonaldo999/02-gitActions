@@ -38,3 +38,18 @@ jobs:
         run: |
           gh issue comment $ISSUE_NUMBER --repo $GITHUB_REPOSITORY --body "¡Gracias por abrir este issue! Nos pondremos en contacto contigo pronto."
         # Este step utiliza la CLI de GitHub (gh) para comentar automáticamente en el issue que se acaba de abrir. Solo se ejecuta si el evento es 'issues' y la acción es 'opened'. El comentario agradece al usuario por abrir el issue y promete una respuesta pronta. Para que esto funcione, es necesario que el runner tenga acceso a la CLI de GitHub y que el token de autenticación esté configurado correctamente en los secretos del repositorio.
+
+      - name: Comentar como autor del repositorio
+        if: github.event_name == 'issues' && github.event.action == 'opened'
+        env:
+          AUTHOR_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          if [[ -z "$AUTHOR_TOKEN" ]]; then
+            echo "::warning::No hay PERSONAL_ACCESS_TOKEN configurado. Se omite el comentario como autor."
+            exit 0
+          fi
+          GH_TOKEN="$AUTHOR_TOKEN" gh issue comment "$ISSUE_NUMBER" \
+            --repo "$GITHUB_REPOSITORY" \
+            --body "Hola soy el dueño del repositorio respondiendo personalmente. Mirate la guia de contribución mientras te respondo."
+        # Este step también comenta en el issue abierto, pero lo hace utilizando un token de autenticación personal (PERSONAL_ACCESS_TOKEN) que debe ser configurado en los secretos del repositorio. Esto permite que el comentario aparezca como si fuera hecho por el autor del repositorio en lugar de un bot. Si el token no está configurado, se muestra una advertencia y se omite este paso. Al igual que el step anterior, solo se ejecuta para eventos de tipo 'issues' con la acción 'opened'. El comentario sugiere al usuario revisar la guía de contribución mientras espera una respuesta personalizada.
