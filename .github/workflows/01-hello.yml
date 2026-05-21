@@ -43,7 +43,19 @@ jobs:
       - name: Descargar codigo del repositorio
         uses: actions/checkout@v6
         # Esta acción clona el repositorio en el runner, permitiendo que los siguientes steps accedan a los archivos del proyecto.
-
+        
+        # ====
+        # with:
+          # Aquí puedes configurar opciones adicionales para la acción 'actions/checkout'.
+          # Por ejemplo, puedes especificar una rama, un token de autenticación, etc.
+          # En este caso, no se están utilizando opciones adicionales.
+          # repository: ${{ github.repository }}
+          # 'repository' es una variable de entorno que contiene el nombre del repositorio en formato 'owner/repo'.
+          # ref: main o repo
+          # 'ref' especifica la rama o el commit que se desea descargar. Aquí se indica 'main', pero puedes cambiarlo según tus necesidades.
+          # ====
+          
       - name: Listar archivos del repositorio
         run: ls -la
         # Este comando muestra los archivos y carpetas del repositorio que se han descargado en el runner.
+        

@@ -1,0 +1,20 @@
+name: 02 - Manual Workflow
+
+on:
+  workflow_dispatch:
+    # Este evento permite ejecutar el workflow manualmente desde la interfaz de GitHub Actions.
+    # No se requiere ningún trigger específico, ya que el usuario puede iniciar el workflow cuando lo desee.
+jobs:
+  manual-job:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Ejecutar workflow manualmente
+        run: echo "Este workflow se ejecutó manualmente desde la interfaz de GitHub Actions."
+        # Este comando imprime un mensaje indicando que el workflow fue iniciado manualmente.
+      - name: Ver fecha de ejecución
+        run: date
+        # Este comando muestra la fecha y hora en que se ejecutó el workflow, lo que puede ser útil para seguimiento y depuración.
+
+      - name: Listar archivos del runner
+        run: ls -la
+        # Este comando muestra los archivos y carpetas presentes en el directorio de trabajo del runner, lo que puede ayudar a verificar el entorno de ejecución.
