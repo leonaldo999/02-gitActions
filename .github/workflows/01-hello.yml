@@ -1,4 +1,4 @@
-name: 01- Hello
+name: 01 - Hello
 # El nombre del workflow que aparece en la interfaz de GitHub Actions.
 
 on:

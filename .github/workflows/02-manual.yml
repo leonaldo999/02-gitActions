@@ -4,17 +4,87 @@ on:
   workflow_dispatch:
     # Este evento permite ejecutar el workflow manualmente desde la interfaz de GitHub Actions.
     # No se requiere ningún trigger específico, ya que el usuario puede iniciar el workflow cuando lo desee.
+    inputs:
+      # Aquí puedes definir inputs personalizados que el usuario debe proporcionar al iniciar el workflow.
+      # Por ejemplo, podrías pedir un mensaje personalizado o una opción de configuración.
+      # En este caso, no se están utilizando inputs adicionales, pero puedes agregar los que necesites.
+      # message:
+      #   description: 'Mensaje personalizado para el workflow'
+      #   required: false
+      #   default: 'Hola desde el workflow manual!'
+      logging_level:
+        required: true
+        default: "info"
+        type: choice
+        options:
+          - info
+          - debug
+          - warning
+          - error
+
+      environment:
+        description: "Selecciona el entorno de despliegue"
+        type: environment
+
+      dry_run:
+        description: "Ejecutar sin aplicar cambios"
+        required: false
+        default: false
+        type: boolean
+
+      reason:
+        description: "Motivo de la ejecucion"
+        required: false
+        default: "Manual execution"
+        type: string
 jobs:
-  manual-job:
+  manual_job:
     runs-on: ubuntu-24.04
     steps:
-      - name: Ejecutar workflow manualmente
-        run: echo "Este workflow se ejecutó manualmente desde la interfaz de GitHub Actions."
-        # Este comando imprime un mensaje indicando que el workflow fue iniciado manualmente.
-      - name: Ver fecha de ejecución
-        run: date
-        # Este comando muestra la fecha y hora en que se ejecutó el workflow, lo que puede ser útil para seguimiento y depuración.
+      # - name: Ejecutar workflow manualmente
+      #   run: echo "Este workflow se ejecutó manualmente desde la interfaz de GitHub Actions."
+      # Este comando imprime un mensaje indicando que el workflow fue iniciado manualmente.
+      # - name: Ver fecha de ejecución
+      #   run: date
+      # Este comando muestra la fecha y hora en que se ejecutó el workflow, lo que puede ser útil para seguimiento y depuración.
 
-      - name: Listar archivos del runner
-        run: ls -la
-        # Este comando muestra los archivos y carpetas presentes en el directorio de trabajo del runner, lo que puede ayudar a verificar el entorno de ejecución.
+      # - name: Listar archivos del runner
+      #   run: ls -la
+      # Este comando muestra los archivos y carpetas presentes en el directorio de trabajo del runner, lo que puede ayudar a verificar el entorno de ejecución.
+
+      - name: Mostrar inputs del workflow
+        # Aquí se asignan los valores de los inputs proporcionados por el usuario a variables de entorno que luego se pueden usar en el comando 'run'.
+        env:
+          # 'inputs.logging_level' es la forma de acceder al valor del input 'logging_level' que el usuario proporcionó al iniciar el workflow. Este valor se asigna a la variable de entorno 'LOG_LEVEL'.
+          LOG_LEVEL: ${{ inputs.logging_level }}
+          # 'inputs.environment' accede al valor del input 'environment' y lo asigna a la variable de entorno 'ENVIRONMENT'.
+          ENVIRONMENT: ${{ inputs.environment }}
+          # 'inputs.dry_run' accede al valor del input 'dry_run' y lo asigna a la variable de entorno 'DRY_RUN'.
+          DRY_RUN: ${{ inputs.dry_run }}
+          # 'inputs.reason' accede al valor del input 'reason' y lo asigna a la variable de entorno 'REASON'.
+          REASON: ${{ inputs.reason }}
+        run: |
+          echo "Logging Level: $LOG_LEVEL"
+          echo "Environment: $ENVIRONMENT"
+          echo "Dry Run: $DRY_RUN"
+          echo "Reason: $REASON"
+        # Este step muestra los valores de los inputs proporcionados por el usuario al iniciar el workflow, lo que puede ser útil para verificar que se han recibido correctamente y para depuración.
+
+      - name: Deploy (solo si no es un dry-run)
+        if: ${{ !inputs.dry_run }}
+        env:
+          ENVIRONMENT: ${{ inputs.environment }}
+        run: |
+          echo 'Desplegando en el entorno: $ENVIRONMENT'
+        # Aquí irían los comandos reales de despliegue, por ejemplo:
+        # if [ "$ENVIRONMENT" == "production" ]; then
+        #   ./deploy-prod.sh
+        # else
+        #   ./deploy-staging.sh
+        # fi
+
+      - name: Simular despliegue (dry-run)
+        if: ${{ inputs.dry_run }}
+        run: |
+          echo 'Simulando despliegue (dry-run), no se aplicarán cambios.'
+        # En este step se simula el despliegue sin aplicar cambios, lo que es útil para verificar que los comandos de despliegue se ejecutan correctamente sin afectar el entorno real.
