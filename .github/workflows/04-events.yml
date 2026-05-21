@@ -1,0 +1,27 @@
+name: 04 - Events
+
+on:
+  issues:
+    # Este evento se dispara cuando se crea, cierra o reabre un issue en el repositorio.
+    types: [opened, reopened]
+    # Aquí se especifica que el workflow se ejecutará solo para los eventos de tipo 'opened' y 'reopened' relacionados con los issues.
+  issue_comment:
+    # Este evento se dispara cuando se crea, edita o elimina un comentario en un issue o pull request.
+    types: [created]
+    # Aquí se especifica que el workflow se ejecutará solo para los eventos de tipo 'created' relacionados con los comentarios en issues o pull requests.
+
+jobs:
+  inspect_event:
+    # Identificador del job. Puedes poner cualquier nombre descriptivo.
+
+    # runs-on indica el sistema operativo del runner que ejecutará este job.
+    # En este caso usamos una máquina virtual con Ubuntu 24.04.
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Inspeccionar el evento
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "Issue: ${{ github.event.issue.number }}"
+          echo "Comment: ${{ github.event.comment.body }}"
+        # Este step imprime información sobre el evento que disparó el workflow, incluyendo el nombre del evento, el número del issue asociado y el cuerpo del comentario (si aplica). Esto es útil para entender qué datos están disponibles en el contexto del evento.
