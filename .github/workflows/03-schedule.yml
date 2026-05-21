@@ -1,0 +1,22 @@
+name: 03 - Schedule
+
+on:
+  # Define los eventos que disparan este workflow.
+  schedule:
+    # Aquí se define un cron para ejecutar el workflow automáticamente en un horario específico.
+    # En este caso, se ejecutará todos los lunes a las 9:00 AM UTC.
+    - cron: '0 9 * * MON'
+
+
+jobs:
+  scheduled:
+    # Identificador del job. Puedes poner cualquier nombre descriptivo.
+
+    # runs-on indica el sistema operativo del runner que ejecutará este job.
+    # En este caso usamos una máquina virtual con Ubuntu 24.04.
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Ejecutar workflow programado
+        run: echo "Este workflow se ejecutó automáticamente según el cron programado."
+        # Este comando imprime un mensaje indicando que el workflow fue iniciado automáticamente por el evento de schedule.
