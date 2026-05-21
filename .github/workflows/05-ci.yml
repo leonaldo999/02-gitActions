@@ -1,0 +1,41 @@
+# Este archivo define un workflow de integración continua (CI) para un proyecto. El workflow se ejecuta automáticamente cada vez que se hace un push o se crea un pull request en la rama principal (main) del repositorio. El workflow incluye varios steps para preparar el entorno, instalar dependencias, ejecutar linting, pruebas y construir el proyecto.
+name: 05 - CI
+
+on:
+  # Define los eventos que disparan este workflow. En este caso, se ejecutará cuando se haga un push o se cree un pull request en la rama 'main'.
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-24.04
+
+    steps:
+      # Este step descarga el código del repositorio para que los siguientes steps puedan acceder a los archivos del proyecto.
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      # Este step prepara el entorno para usar pnpm, una herramienta de gestión de paquetes para Node.js. Se especifica la versión de pnpm a usar y se indica que no se ejecute automáticamente 'pnpm install' después de la configuración.
+      - name: Preparar pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 11
+          run_install: false
+
+      # Este step instala las dependencias del proyecto usando pnpm. La opción '--frozen-lockfile' asegura que se utilice exactamente el mismo archivo de bloqueo (lockfile) para garantizar la consistencia de las dependencias.
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Estos steps ejecutan los comandos de lint, test y build definidos en el proyecto. El comando 'pnpm lint' verifica el código para asegurarse de que sigue las reglas de estilo y calidad establecidas. El comando 'pnpm test' ejecuta las pruebas automatizadas para verificar que el código funciona correctamente. Finalmente, el comando 'pnpm build' compila el código para prepararlo para su despliegue o distribución.
+      - name: Lint
+        run: pnpm lint
+
+      # Este step ejecuta las pruebas automatizadas del proyecto utilizando pnpm. Es importante ejecutar las pruebas para asegurarse de que el código funciona correctamente y no introduce errores antes de ser fusionado o desplegado.
+      - name: Test
+        run: pnpm test
+
+      # Este step compila el código del proyecto utilizando pnpm. La compilación es un proceso que transforma el código fuente en un formato que puede ser ejecutado o desplegado, y es una parte crucial del proceso de integración continua (CI) para garantizar que el código esté listo para su uso en producción.
+      - name: Build
+        run: pnpm build

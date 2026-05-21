@@ -129,4 +129,6 @@ jobs:
 
 En este ejemplo, se define un job llamado "build" que se ejecuta en un runner hospedado por GitHub con el sistema operativo Ubuntu. El job incluye varios steps, como la verificación del código, la configuración de Node.js, la instalación de dependencias y la ejecución de pruebas. Este es solo un ejemplo básico, y puedes personalizar tu runner según las necesidades de tu proyecto.
 
-En resumen, GitHub Actions es una plataforma poderosa que te permite automatizar tus flujos de trabajo de desarrollo de software. Con workflows, jobs, steps y runners, puedes personalizar tu proceso de desarrollo para mejorar la eficiencia y la calidad de tu código. Ya sea que estés ejecutando pruebas, compilando código o desplegando aplicaciones, GitHub Actions te ofrece las herramientas necesarias para automatizar tus tareas y acelerar tu ciclo de desarrollo.
+---
+
+_En resumen, GitHub Actions es una plataforma poderosa que te permite automatizar tus flujos de trabajo de desarrollo de software. Con workflows, jobs, steps y runners, puedes personalizar tu proceso de desarrollo para mejorar la eficiencia y la calidad de tu código. Ya sea que estés ejecutando pruebas, compilando código o desplegando aplicaciones, GitHub Actions te ofrece las herramientas necesarias para automatizar tus tareas y acelerar tu ciclo de desarrollo._

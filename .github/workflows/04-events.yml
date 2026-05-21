@@ -1,3 +1,4 @@
+# Este es un workflow de GitHub Actions que se ejecuta en respuesta a eventos relacionados con issues y comentarios en el repositorio. El workflow se llama "04 - Events" y está diseñado para inspeccionar los eventos que lo disparan y responder automáticamente a ciertos eventos, como la apertura de un issue.
 name: 04 - Events
 
 on:
