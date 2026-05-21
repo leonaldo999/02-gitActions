@@ -34,3 +34,16 @@ jobs:
         # Lista los archivos y carpetas presentes en el directorio de trabajo.
         # 'ls -la' muestra detalles como permisos, propietario y tamaño.
         run: ls -la
+
+  repo-files:
+    # Para recuperar los archivos del repositorio, se utiliza la acción 'actions/checkout'.
+    # Esto es necesario para que los comandos posteriores puedan acceder a los archivos del proyecto.
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Descargar codigo del repositorio
+        uses: actions/checkout@v6
+        # Esta acción clona el repositorio en el runner, permitiendo que los siguientes steps accedan a los archivos del proyecto.
+
+      - name: Listar archivos del repositorio
+        run: ls -la
+        # Este comando muestra los archivos y carpetas del repositorio que se han descargado en el runner.
