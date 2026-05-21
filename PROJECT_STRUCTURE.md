@@ -2,7 +2,7 @@
 
 Fecha: 2026-05-21
 
-Raíz: 02-gitActions/
+Raíz: 02-git-actions/
 
 - .git/
 - .github/
