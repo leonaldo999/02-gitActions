@@ -1,0 +1,36 @@
+name: 01- Hello
+# El nombre del workflow que aparece en la interfaz de GitHub Actions.
+
+on:
+  # Define los eventos que disparan este workflow.
+  push:
+    # Cuando se hace push a las ramas listadas, se ejecuta el workflow.
+    # Aquí indicamos que solo se ejecute al hacer push en la rama 'main'.
+    # Puedes cambiar a otra rama o usar '*' para todas las ramas.
+    branches: [main]
+
+jobs:
+  # Los jobs son las unidades de trabajo que se ejecutan en runners.
+  hello:
+    # Identificador del job. Puedes poner cualquier nombre descriptivo.
+
+    # runs-on indica el sistema operativo del runner que ejecutará este job.
+    # En este caso usamos una máquina virtual con Ubuntu 24.04.
+    runs-on: ubuntu-24.04
+
+    steps:
+      # Cada step es una acción o un comando que se ejecuta en el runner.
+
+      - name: Saludar
+        # 'name' es una etiqueta para el step que se muestra en la UI.
+        # 'run' ejecuta un comando en la shell del runner.
+        run: echo "Hola Desde GitHub Actions!"
+
+      - name: Ver fecha de runner
+        # Este comando imprime la fecha y hora del runner.
+        run: date
+
+      - name: Ver archivos disponibles
+        # Lista los archivos y carpetas presentes en el directorio de trabajo.
+        # 'ls -la' muestra detalles como permisos, propietario y tamaño.
+        run: ls -la
