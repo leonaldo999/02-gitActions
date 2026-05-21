@@ -12,6 +12,10 @@ jobs:
   ci:
     runs-on: ubuntu-24.04
 
+    defaults:
+      run:
+        working-directory: 02-gitActions
+
     steps:
       # Este step descarga el código del repositorio para que los siguientes steps puedan acceder a los archivos del proyecto.
       - name: Checkout code
