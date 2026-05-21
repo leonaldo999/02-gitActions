@@ -14,7 +14,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: 02-gitActions
+        working-directory: midu/02-gitActions
 
     steps:
       # Este step descarga el código del repositorio para que los siguientes steps puedan acceder a los archivos del proyecto.
@@ -31,7 +31,7 @@ jobs:
       # Este step instala las dependencias del proyecto utilizando pnpm. Se navega al directorio '02-gitActions' antes de ejecutar el comando de instalación. El comando 'pnpm install --frozen-lockfile' asegura que se instalen exactamente las versiones de las dependencias especificadas en el archivo lockfile, lo que ayuda a mantener la consistencia entre diferentes entornos de desarrollo y producción.
       - name: Install dependencies
         run: |
-          cd 02-gitActions
+          cd midu/02-gitActions
           echo "::group::Instalando dependencias con pnpm"
           pnpm install --frozen-lockfile
           echo "::endgroup::"
@@ -39,7 +39,7 @@ jobs:
       # Este step ejecuta el linting del proyecto utilizando pnpm. El linting es un proceso que analiza el código para encontrar errores de estilo, problemas de formato o posibles errores de programación. Es una práctica común para mantener la calidad del código y asegurar que sigue las convenciones establecidas en el proyecto.
       - name: Lint
         run: |
-          cd 02-gitActions
+          cd midu/02-gitActions
           echo "::group::Lint"
           pnpm lint
           echo "::endgroup::"
@@ -47,7 +47,7 @@ jobs:
       # Este step ejecuta las pruebas automatizadas del proyecto utilizando pnpm. Las pruebas son fundamentales para garantizar que el código funciona correctamente y para detectar posibles errores antes de que lleguen a producción. Al igual que en los steps anteriores, se navega al directorio '02-gitActions' antes de ejecutar el comando de pruebas.
       - name: Test
         run: |
-          cd 02-gitActions
+          cd midu/02-gitActions
           echo "::group::Test"
           pnpm test
           echo "::endgroup::"
@@ -55,7 +55,7 @@ jobs:
       # Este step construye el proyecto utilizando pnpm. La construcción del proyecto generalmente implica compilar el código fuente, empaquetar los archivos necesarios y preparar el proyecto para su despliegue o distribución. Al igual que en los steps anteriores, se navega al directorio '02-gitActions' antes de ejecutar el comando de construcción.
       - name: Build
         run: |
-          cd 02-gitActions
+          cd midu/02-gitActions
           echo "::group::Build"
           pnpm build
           echo "::endgroup::"
