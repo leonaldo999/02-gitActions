@@ -17,6 +17,9 @@ jobs:
     # runs-on indica el sistema operativo del runner que ejecutará este job.
     # En este caso usamos una máquina virtual con Ubuntu 24.04.
     runs-on: ubuntu-24.04
+    permissions:
+      issues: write
+    # Aquí se establecen los permisos necesarios para que el job pueda interactuar con los issues del repositorio. En este caso, se otorga permiso de escritura para los issues, lo que permite al job comentar en los issues cuando se ejecuta.
 
     steps:
       - name: Inspeccionar el evento
@@ -25,3 +28,13 @@ jobs:
           echo "Issue: ${{ github.event.issue.number }}"
           echo "Comment: ${{ github.event.comment.body }}"
         # Este step imprime información sobre el evento que disparó el workflow, incluyendo el nombre del evento, el número del issue asociado y el cuerpo del comentario (si aplica). Esto es útil para entender qué datos están disponibles en el contexto del evento.
+
+      - name: Comentar como bot en GitHub Actions
+        if: github.event_name == 'issues' && github.event.action == 'opened'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          gh issue comment $ISSUE_NUMBER --repo $GITHUB_REPOSITORY --body "¡Gracias por abrir este issue! Nos pondremos en contacto contigo pronto."
+        # Este step utiliza la CLI de GitHub (gh) para comentar automáticamente en el issue que se acaba de abrir. Solo se ejecuta si el evento es 'issues' y la acción es 'opened'. El comentario agradece al usuario por abrir el issue y promete una respuesta pronta. Para que esto funcione, es necesario que el runner tenga acceso a la CLI de GitHub y que el token de autenticación esté configurado correctamente en los secretos del repositorio.
